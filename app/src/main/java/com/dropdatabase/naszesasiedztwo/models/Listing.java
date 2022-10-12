@@ -1,5 +1,9 @@
 package com.dropdatabase.naszesasiedztwo.models;
 
+import android.os.Build;
+
+import java.util.Optional;
+
 public class Listing {
     private int id;
     private String title;

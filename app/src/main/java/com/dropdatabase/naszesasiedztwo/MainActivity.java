@@ -1,5 +1,6 @@
 package com.dropdatabase.naszesasiedztwo;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,12 @@ import androidx.navigation.ui.NavigationUI;
 import com.dropdatabase.naszesasiedztwo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startActivity(new Intent(this, LoginActivity.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,4 +36,5 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
+
 }
