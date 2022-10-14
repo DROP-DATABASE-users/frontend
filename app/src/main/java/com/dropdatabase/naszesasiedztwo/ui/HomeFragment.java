@@ -1,6 +1,5 @@
 package com.dropdatabase.naszesasiedztwo.ui;
 
-import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -13,13 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.dropdatabase.naszesasiedztwo.MainActivityViewModel;
 import com.dropdatabase.naszesasiedztwo.R;
 import com.dropdatabase.naszesasiedztwo.databinding.FragmentHomeBinding;
-
-import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
