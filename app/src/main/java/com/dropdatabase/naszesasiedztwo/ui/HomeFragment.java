@@ -21,7 +21,6 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MainActivityViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);

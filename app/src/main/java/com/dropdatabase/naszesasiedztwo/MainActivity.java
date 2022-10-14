@@ -1,10 +1,12 @@
 package com.dropdatabase.naszesasiedztwo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        startActivity(new Intent(this, LoginActivity.class));
     }
 
     @Override
@@ -35,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-    }
 
+        registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Intent intent = result.getData();
+                assert intent != null;
+                Toast.makeText(this, intent.getStringExtra("user"), Toast.LENGTH_SHORT).show();
+            }
+        }).launch(new Intent(this, LoginActivity.class));
+    }
 }

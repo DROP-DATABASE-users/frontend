@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.dropdatabase.naszesasiedztwo.models.Listing;
-import com.dropdatabase.naszesasiedztwo.models.Region;
 import com.dropdatabase.naszesasiedztwo.models.User;
 import com.dropdatabase.naszesasiedztwo.services.ListingService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivityViewModel extends ViewModel {
