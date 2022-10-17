@@ -38,7 +38,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHold
     public ListingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View listingView = inflater.inflate(R.layout.listing, parent, false);
+        View listingView = inflater.inflate(R.layout.fragment_listing, parent, false);
 
         return new ViewHolder(listingView);
     }
