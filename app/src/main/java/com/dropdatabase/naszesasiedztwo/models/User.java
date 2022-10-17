@@ -1,5 +1,8 @@
 package com.dropdatabase.naszesasiedztwo.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class User {
     private int id;
     private String name;
@@ -14,6 +17,16 @@ public class User {
         this.name = name;
         this.lastName = lastName;
         this.description = description;
+    }
+    public User(JSONObject jsonData) {
+        try {
+            this.id = jsonData.getInt("id");
+            this.name = jsonData.getString("name");
+            this.lastName = jsonData.getString("lastName");
+            this.description = jsonData.getString("description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getId() {

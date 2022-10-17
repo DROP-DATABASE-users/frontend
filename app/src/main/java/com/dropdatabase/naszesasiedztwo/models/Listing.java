@@ -2,6 +2,11 @@ package com.dropdatabase.naszesasiedztwo.models;
 
 import android.os.Build;
 
+import com.dropdatabase.naszesasiedztwo.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Optional;
 
 public class Listing {
@@ -34,6 +39,23 @@ public class Listing {
         this.authorId = this.author.getId();
         this.contractor = contractor;
         this.contractorId = this.contractor.getId();
+    }
+
+    public Listing(JSONObject jsonData) {
+        try {
+            this.id = jsonData.getInt("id");
+            this.title = jsonData.getString("title");
+            this.description = jsonData.getString("description");
+            this.coordinatesX = jsonData.getString("coordinatesX");
+            this.coordinatesY = jsonData.getString("coordinatesY");
+            this.region = new Region(jsonData.getJSONObject("region"));
+            this.author = new User(jsonData.getJSONObject("author"));
+            this.authorId = jsonData.getInt("authorId");
+            this.contractor = new User(jsonData.getJSONObject("contractor"));
+            this.contractorId = jsonData.getInt("contractorId");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public int getId() {

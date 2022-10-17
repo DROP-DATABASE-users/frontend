@@ -12,9 +12,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.dropdatabase.naszesasiedztwo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
+
+    private RequestQueue requestQueue;
 
     @Override
     protected void onStart() {
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
