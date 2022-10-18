@@ -1,13 +1,7 @@
 package com.dropdatabase.naszesasiedztwo.models;
 
-import android.os.Build;
-
-import com.dropdatabase.naszesasiedztwo.R;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Optional;
 
 public class Listing {
     private int id;

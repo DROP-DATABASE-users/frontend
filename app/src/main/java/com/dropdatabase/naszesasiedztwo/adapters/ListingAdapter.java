@@ -16,8 +16,8 @@ import java.util.List;
 
 public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvTitle;
-        public TextView tvDescription;
+        public final TextView tvTitle;
+        public final TextView tvDescription;
 
         public ViewHolder(View itemView) {
             super(itemView);

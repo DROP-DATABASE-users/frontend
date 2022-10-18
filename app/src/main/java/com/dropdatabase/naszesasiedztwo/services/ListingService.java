@@ -1,15 +1,11 @@
 package com.dropdatabase.naszesasiedztwo.services;
 
-import androidx.lifecycle.ViewModel;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.dropdatabase.naszesasiedztwo.MainActivityViewModel;
 import com.dropdatabase.naszesasiedztwo.models.Listing;
-import com.dropdatabase.naszesasiedztwo.models.Region;
-import com.dropdatabase.naszesasiedztwo.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ListingService {
-    private MainActivityViewModel vm;
-    private RequestQueue requestQueue;
+    private final MainActivityViewModel vm;
+    private final RequestQueue requestQueue;
 
     public ListingService(MainActivityViewModel vm) {
         this.requestQueue = Volley.newRequestQueue(vm.getApplication());
@@ -55,7 +51,7 @@ public class ListingService {
                 ) {
             @Override
             public Map<String, String> getHeaders() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGVzdCB0ZXN0IiwiZXhwIjoxNjY2ODkxNzkzLCJpc3MiOiJodHRwOi8vbmFzemVzYXNpZWR6dHdvLmNvbSIsImF1ZCI6Imh0dHA6Ly9uYXN6ZXNhc2llZHp0d28uY29tIn0.ZmfuAh1ntUR37lCqTLXs7GM8ze-5HAzHupmx8ZcYK3c");
                 return params;
             }

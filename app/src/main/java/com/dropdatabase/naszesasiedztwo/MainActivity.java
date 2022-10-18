@@ -13,17 +13,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.dropdatabase.naszesasiedztwo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-
-    private RequestQueue requestQueue;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

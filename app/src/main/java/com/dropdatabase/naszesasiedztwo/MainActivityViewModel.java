@@ -2,11 +2,9 @@ package com.dropdatabase.naszesasiedztwo;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.dropdatabase.naszesasiedztwo.models.Listing;
 import com.dropdatabase.naszesasiedztwo.models.User;
@@ -27,7 +25,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         super(application);
         listingService = new ListingService(this);
         this.currentUser = new MutableLiveData<>(new User(1,"Jaca", "Praca", "Hej"));
-        this.listings = new MutableLiveData<>(new ArrayList<Listing>());
+        this.listings = new MutableLiveData<>(new ArrayList<>());
 
         listingService.fetchListings();
     }
