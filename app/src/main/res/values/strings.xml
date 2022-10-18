@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">NaszeSąsiedztwo</string>
-    <string name="title_home">Główna</string>
-    <string name="title_profile">Profil</string>
-    <string name="title_notifications">Powiadomienia</string>
+    <string name="home">Główna</string>
+    <string name="profile">Profil</string>
+    <string name="notifications">Powiadomienia</string>
+    <string name="listings">Zadania</string>
     <string name="add">Dodaj</string>
     <string name="welcome">Witaj,\ </string>
     <string name="login">Logowanie</string>

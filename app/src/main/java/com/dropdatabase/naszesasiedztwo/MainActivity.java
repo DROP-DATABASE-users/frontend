@@ -12,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.android.volley.RequestQueue;
 import com.dropdatabase.naszesasiedztwo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,12 +20,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_profile, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_profile, R.id.navigation_listings)
                 .build();
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
         assert navHostFragment != null;

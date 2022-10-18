@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dropdatabase.naszesasiedztwo.MainActivityViewModel;
 import com.dropdatabase.naszesasiedztwo.adapters.ListingAdapter;
-import com.dropdatabase.naszesasiedztwo.databinding.FragmentNotificationsBinding;
+import com.dropdatabase.naszesasiedztwo.databinding.FragmentListingsBinding;
 
-public class NotificationsFragment extends Fragment {
+public class ListingsFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentListingsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentListingsBinding.inflate(inflater, container, false);
 
         MainActivityViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
 

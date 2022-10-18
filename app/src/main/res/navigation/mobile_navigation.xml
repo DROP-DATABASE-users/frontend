@@ -8,18 +8,18 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.dropdatabase.naszesasiedztwo.ui.HomeFragment"
-        android:label="@string/title_home"
+        android:label="@string/home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.dropdatabase.naszesasiedztwo.ui.ProfileFragment"
-        android:label="@string/title_profile"
+        android:label="@string/profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.dropdatabase.naszesasiedztwo.ui.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_listings"
+        android:name="com.dropdatabase.naszesasiedztwo.ui.ListingsFragment"
+        android:label="@string/listings"
+        tools:layout="@layout/fragment_listings" />
 </navigation>
