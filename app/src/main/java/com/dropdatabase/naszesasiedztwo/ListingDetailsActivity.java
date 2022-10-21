@@ -10,5 +10,8 @@ public class ListingDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listing_details);
+
+
+
     }
 }
