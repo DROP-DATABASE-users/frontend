@@ -9,7 +9,7 @@ public class Listing {
     private String description;
     private String coordinatesX;
     private String coordinatesY;
-    private Region region;
+    private int regionId;
     private User author;
     private int authorId;
     private User contractor;
@@ -20,7 +20,7 @@ public class Listing {
                    String description,
                    String coordinatesX,
                    String coordinatesY,
-                   Region region,
+                   int regionId,
                    User author,
                    User contractor) {
         this.id = id;
@@ -28,7 +28,7 @@ public class Listing {
         this.description = description;
         this.coordinatesX = coordinatesX;
         this.coordinatesY = coordinatesY;
-        this.region = region;
+        this.regionId = regionId;
         this.author = author;
         this.authorId = this.author.getId();
         this.contractor = contractor;
@@ -42,7 +42,7 @@ public class Listing {
             this.description = jsonData.getString("description");
             this.coordinatesX = jsonData.getString("coordinatesX");
             this.coordinatesY = jsonData.getString("coordinatesY");
-            this.region = new Region(jsonData.getJSONObject("region"));
+            this.regionId = jsonData.getInt("region");
             this.author = new User(jsonData.getJSONObject("author"));
             this.authorId = jsonData.getInt("authorId");
             this.contractor = new User(jsonData.getJSONObject("contractor"));
@@ -92,12 +92,12 @@ public class Listing {
         this.coordinatesY = coordinatesY;
     }
 
-    public Region getRegion() {
-        return region;
+    public int getRegionId() {
+        return regionId;
     }
 
-    public void setRegion(Region region) {
-        this.region = region;
+    public void setRegionId(int regionId) {
+        this.regionId = regionId;
     }
 
     public User getAuthor() {

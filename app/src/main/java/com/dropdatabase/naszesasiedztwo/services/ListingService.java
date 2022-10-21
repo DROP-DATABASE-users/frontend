@@ -4,6 +4,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.dropdatabase.naszesasiedztwo.BackendFetchCallback;
 import com.dropdatabase.naszesasiedztwo.MainActivityViewModel;
 import com.dropdatabase.naszesasiedztwo.models.Listing;
 
@@ -24,7 +25,7 @@ public class ListingService {
         this.vm = vm;
     }
 
-    public void fetchListings() {
+    public void fetchListings(BackendFetchCallback<List<Listing>> listingCallback) {
         List<Listing> listings = new ArrayList<>();
 
         String url = "http://172.30.188.124:5078/api/listing/12";
@@ -39,14 +40,17 @@ public class ListingService {
                                 JSONObject responseObj = response.getJSONObject(i);
                                 listings.add(new Listing(responseObj));
                         }
-                        vm.setListings(listings);
+                        listingCallback.onReceived(listings);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 },
                 error -> {
-                    System.out.println(error.networkResponse.statusCode);
+                    if(error.networkResponse != null) {
+                        System.out.println(error.networkResponse.statusCode);
+                    }
                     error.printStackTrace();
+
                 }
                 ) {
             @Override
