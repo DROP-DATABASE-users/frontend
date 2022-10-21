@@ -4,7 +4,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.dropdatabase.naszesasiedztwo.BackendFetchCallback;
+import com.dropdatabase.naszesasiedztwo.utils.BackendFetchCallback;
 import com.dropdatabase.naszesasiedztwo.MainActivityViewModel;
 import com.dropdatabase.naszesasiedztwo.models.Listing;
 

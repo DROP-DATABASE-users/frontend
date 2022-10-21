@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.dropdatabase.naszesasiedztwo.models.Listing;
 import com.dropdatabase.naszesasiedztwo.models.User;
 import com.dropdatabase.naszesasiedztwo.services.ListingService;
+import com.dropdatabase.naszesasiedztwo.utils.DataUpdateCallback;
 
 import java.util.ArrayList;
 import java.util.List;

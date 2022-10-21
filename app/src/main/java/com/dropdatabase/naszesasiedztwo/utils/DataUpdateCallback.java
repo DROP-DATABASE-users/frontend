@@ -1,4 +1,4 @@
-package com.dropdatabase.naszesasiedztwo;
+package com.dropdatabase.naszesasiedztwo.utils;
 
 public interface DataUpdateCallback {
     void update();

@@ -3,9 +3,11 @@ package com.dropdatabase.naszesasiedztwo.ui;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -115,12 +117,9 @@ public class HomeFragment extends Fragment {
         mapController = map.getController();
         mapController.setZoom(10.0);
 
+/*
         GeoPoint test_point = new GeoPoint(3.1201294 ,13.123123);
 
-        //your items
-
-
-/*
         Marker test_marker = new Marker(map);
         test_marker.setPosition(test_point);
 
@@ -146,6 +145,7 @@ public class HomeFragment extends Fragment {
         ActivityCompat.requestPermissions(requireActivity(), new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void updateMarkers() {
         List<Marker> markerList = new ArrayList<>();
 
@@ -153,7 +153,9 @@ public class HomeFragment extends Fragment {
         if (listings == null || map == null) return;
         for(Listing listing : listings) {
             Marker marker = new Marker(map);
-            marker.setPosition(new GeoPoint(Double.parseDouble(listing.getCoordinatesX()),Double.parseDouble(listing.getCoordinatesY())));
+            marker.setPosition(new GeoPoint(Double.parseDouble(listing.getCoordinatesX()), Double.parseDouble(listing.getCoordinatesY())));
+            marker.setIcon(getResources().getDrawable(R.drawable.ic_baseline_person_pin_circle_32, requireContext().getTheme()));
+
             marker.setOnMarkerClickListener((mark, mapView) -> {
                 onListingPressed(listing);
                 return false;
