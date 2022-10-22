@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
             if (result.getResultCode() == Activity.RESULT_OK) {
                 Intent intent = result.getData();
                 assert intent != null;
-                Toast.makeText(this, intent.getStringExtra("user"), Toast.LENGTH_SHORT).show();
+                String debugstring = String.format("%s; %s", intent.getStringExtra("user"), intent.getLongExtra("region", 0));
+                Toast.makeText(this, debugstring, Toast.LENGTH_SHORT).show();
             }
         }).launch(new Intent(this, LoginActivity.class));
     }

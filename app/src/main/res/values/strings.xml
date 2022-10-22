@@ -20,4 +20,23 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="region">Region</string>
+    <string name="center">Wyśrodkuj mapę</string>
+    <string-array name="regions">
+        <item>Dolnośląskie</item>
+        <item>Kujawsko-Pomorskie</item>
+        <item>Lubelskie</item>
+        <item>Lubuskie</item>
+        <item>Łódzkie</item>
+        <item>Małopolskie</item>
+        <item>Mazowieckie</item>
+        <item>Opolskie</item>
+        <item>Podkarpackie</item>
+        <item>Pomorskie</item>
+        <item>Śląskie</item>
+        <item>Świętokrzyskie</item>
+        <item>Warmińsko-Mazurskie</item>
+        <item>Wielkopolskie</item>
+        <item>Zachodnio-Pomorskie</item>
+    </string-array>
 </resources>

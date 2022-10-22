@@ -2,12 +2,10 @@ package com.dropdatabase.naszesasiedztwo.ui;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -29,11 +27,6 @@ import com.dropdatabase.naszesasiedztwo.MainActivityViewModel;
 import com.dropdatabase.naszesasiedztwo.R;
 import com.dropdatabase.naszesasiedztwo.databinding.FragmentHomeBinding;
 import com.dropdatabase.naszesasiedztwo.models.Listing;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-
-import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.osmdroid.api.IMapController;
@@ -44,9 +37,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class HomeFragment extends Fragment {
@@ -57,8 +48,6 @@ public class HomeFragment extends Fragment {
     private IMapController mapController;
 
     private LocationManager locationManager;
-
-
 
     private Location currentLocation;
     private Location lastKnownLocation;
@@ -82,20 +71,19 @@ public class HomeFragment extends Fragment {
                 ));
 
 
-
-
         locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(requireActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermission();
         }
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1500, 10, location -> {
-                if (location != null) {
-                    lastKnownLocation = location;
-                    if(currentLocation == null) {
-       //                 mapController.animateTo(new GeoPoint(lastKnownLocation));
-                    }
+            if (location != null) {
+                lastKnownLocation = location;
+                if (currentLocation == null) {
+                    mapController.animateTo(new GeoPoint(lastKnownLocation));
                 }
+            }
         });
 
         FloatingActionButton centerMapButton = binding.centerMapButton;
@@ -107,8 +95,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-        // set up map settings
         Context ctx = getContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
@@ -117,31 +103,10 @@ public class HomeFragment extends Fragment {
         mapController = map.getController();
         mapController.setZoom(10.0);
 
-/*
-        GeoPoint test_point = new GeoPoint(3.1201294 ,13.123123);
-
-        Marker test_marker = new Marker(map);
-        test_marker.setPosition(test_point);
-
-        test_marker.setOnMarkerClickListener((marker, mapView) -> {
-            Toast.makeText(requireActivity(), "clicked marker!", Toast.LENGTH_SHORT).show();
-            return false;
-        });
-
-        List<Marker> markers = new ArrayList<Marker>();
-
-        markers.add(test_marker);
-
-
-        map.getOverlays().addAll(markers);
-        mapController.animateTo(test_point);
-*/
-
-
         return binding.getRoot();
     }
 
-    private void requestPermission(){
+    private void requestPermission() {
         ActivityCompat.requestPermissions(requireActivity(), new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 
@@ -151,10 +116,10 @@ public class HomeFragment extends Fragment {
 
         List<Listing> listings = viewModel.getListings().getValue();
         if (listings == null || map == null) return;
-        for(Listing listing : listings) {
+        for (Listing listing : listings) {
             Marker marker = new Marker(map);
             marker.setPosition(new GeoPoint(Double.parseDouble(listing.getCoordinatesX()), Double.parseDouble(listing.getCoordinatesY())));
-            marker.setIcon(getResources().getDrawable(R.drawable.ic_baseline_person_pin_circle_32, requireContext().getTheme()));
+            marker.setIcon(getResources().getDrawable(R.drawable.ic_baseline_person_pin_circle_24, requireContext().getTheme()));
 
             marker.setOnMarkerClickListener((mark, mapView) -> {
                 onListingPressed(listing);
@@ -167,7 +132,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void onListingPressed(Listing listing) {
-        Toast.makeText(requireActivity(),listing.getTitle(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireActivity(), listing.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -175,6 +140,7 @@ public class HomeFragment extends Fragment {
         super.onResume();
         map.onResume();
     }
+
     @Override
     public void onPause() {
         super.onPause();

@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginClicked(View view) {
         Intent result = new Intent();
         result.putExtra("user", binding.usernameInput.getText().toString());
+        result.putExtra("region", binding.regionSpinner.getSelectedItemId());
         setResult(RESULT_OK, result);
         finish();
     }
