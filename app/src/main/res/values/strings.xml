@@ -22,6 +22,9 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="region">Region</string>
     <string name="center">Wyśrodkuj mapę</string>
+    <string name="accept">Przyjmuję</string>
+    <string name="cancel">Anuluj</string>
+    <string name="created_by">Utworzono przez:</string>
     <string-array name="regions">
         <item>Dolnośląskie</item>
         <item>Kujawsko-Pomorskie</item>

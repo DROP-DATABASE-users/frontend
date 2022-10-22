@@ -16,21 +16,17 @@ import java.util.List;
 
 public class MainActivityViewModel extends AndroidViewModel {
 
-    private final ListingService listingService;
-
     private final MutableLiveData<User> currentUser;
     private final MutableLiveData<List<Listing>> listings;
 
-    private List<DataUpdateCallback> listingUpdates;
+    private final List<DataUpdateCallback> listingUpdates;
 
     public MainActivityViewModel(Application application) {
         super(application);
-        listingService = new ListingService(this);
+        ListingService listingService = new ListingService(this);
         listingUpdates = new ArrayList<>();
         this.currentUser = new MutableLiveData<>(new User(1,"Jaca", "Praca", "Hej"));
         this.listings = new MutableLiveData<>(new ArrayList<>());
-
-
 
         listingService.fetchListings(data -> {
             this.setListings(data);
@@ -45,10 +41,10 @@ public class MainActivityViewModel extends AndroidViewModel {
     public void addListingCallback(DataUpdateCallback callback) {
         listingUpdates.add(callback);
     }
+
     public void removeListingCallback(DataUpdateCallback callback){
         listingUpdates.remove(callback);
     }
-
 
     public LiveData<User> getCurrentUser() {
         return currentUser;

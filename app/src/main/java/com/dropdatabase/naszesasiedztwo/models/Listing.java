@@ -1,9 +1,13 @@
 package com.dropdatabase.naszesasiedztwo.models;
 
+import androidx.annotation.Nullable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Listing {
+import java.io.Serializable;
+
+public class Listing implements Serializable {
     private int id;
     private String title;
     private String description;
@@ -12,7 +16,7 @@ public class Listing {
     private int regionId;
     private User author;
     private int authorId;
-    private User contractor;
+    @Nullable private User contractor;
     private int contractorId;
 
     public Listing(int id,
@@ -22,7 +26,7 @@ public class Listing {
                    String coordinatesY,
                    int regionId,
                    User author,
-                   User contractor) {
+                   @Nullable User contractor) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -45,7 +49,10 @@ public class Listing {
             this.regionId = jsonData.getInt("region");
             this.author = new User(jsonData.getJSONObject("author"));
             this.authorId = jsonData.getInt("authorId");
-            this.contractor = new User(jsonData.getJSONObject("contractor"));
+            JSONObject contractor = jsonData.optJSONObject("contractor");
+            if (contractor != null) {
+                this.contractor = new User(contractor);
+            }
             this.contractorId = jsonData.getInt("contractorId");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -116,11 +123,12 @@ public class Listing {
         this.authorId = authorId;
     }
 
+    @Nullable
     public User getContractor() {
         return contractor;
     }
 
-    public void setContractor(User contractor) {
+    public void setContractor(@Nullable User contractor) {
         this.contractor = contractor;
     }
 

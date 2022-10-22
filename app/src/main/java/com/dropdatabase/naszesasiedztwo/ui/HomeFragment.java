@@ -4,6 +4,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -16,13 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.dropdatabase.naszesasiedztwo.ListingDetailsActivity;
 import com.dropdatabase.naszesasiedztwo.MainActivityViewModel;
 import com.dropdatabase.naszesasiedztwo.R;
 import com.dropdatabase.naszesasiedztwo.databinding.FragmentHomeBinding;
@@ -47,8 +48,6 @@ public class HomeFragment extends Fragment {
     private MapView map;
     private IMapController mapController;
 
-    private LocationManager locationManager;
-
     private Location currentLocation;
     private Location lastKnownLocation;
     private MainActivityViewModel viewModel;
@@ -71,7 +70,7 @@ public class HomeFragment extends Fragment {
                 ));
 
 
-        locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(requireActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermission();
@@ -80,9 +79,6 @@ public class HomeFragment extends Fragment {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1500, 10, location -> {
             if (location != null) {
                 lastKnownLocation = location;
-                if (currentLocation == null) {
-                    mapController.animateTo(new GeoPoint(lastKnownLocation));
-                }
             }
         });
 
@@ -103,6 +99,8 @@ public class HomeFragment extends Fragment {
         mapController = map.getController();
         mapController.setZoom(10.0);
 
+        updateMarkers();
+
         return binding.getRoot();
     }
 
@@ -117,22 +115,31 @@ public class HomeFragment extends Fragment {
         List<Listing> listings = viewModel.getListings().getValue();
         if (listings == null || map == null) return;
         for (Listing listing : listings) {
-            Marker marker = new Marker(map);
-            marker.setPosition(new GeoPoint(Double.parseDouble(listing.getCoordinatesX()), Double.parseDouble(listing.getCoordinatesY())));
-            marker.setIcon(getResources().getDrawable(R.drawable.ic_baseline_person_pin_circle_24, requireContext().getTheme()));
+            try {
+                Marker marker = new Marker(map);
+                marker.setPosition(new GeoPoint(Double.parseDouble(listing.getCoordinatesX()), Double.parseDouble(listing.getCoordinatesY())));
+                marker.setIcon(getResources().getDrawable(R.drawable.ic_baseline_person_pin_circle_48, requireContext().getTheme()));
 
-            marker.setOnMarkerClickListener((mark, mapView) -> {
-                onListingPressed(listing);
-                return false;
-            });
-            markerList.add(marker);
+                marker.setOnMarkerClickListener((mark, mapView) -> {
+                    onListingPressed(listing);
+                    return false;
+                });
+                markerList.add(marker);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         map.getOverlays().addAll(markerList);
-        mapController.animateTo(markerList.get(0).getPosition());
+        if (!markerList.isEmpty()) {
+            mapController.animateTo(markerList.get(0).getPosition());
+        }
     }
 
     private void onListingPressed(Listing listing) {
-        Toast.makeText(requireActivity(), listing.getTitle(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(requireActivity(), ListingDetailsActivity.class);
+        intent.putExtra("listing", listing);
+        startActivity(intent);
     }
 
     @Override
