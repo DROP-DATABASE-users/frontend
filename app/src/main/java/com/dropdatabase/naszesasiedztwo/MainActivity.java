@@ -19,6 +19,7 @@ import com.dropdatabase.naszesasiedztwo.models.Listing;
 import com.dropdatabase.naszesasiedztwo.models.User;
 import com.dropdatabase.naszesasiedztwo.services.ListingService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final MutableLiveData<User> currentUser = new MutableLiveData<>();
     private final MutableLiveData<List<Listing>> listings = new MutableLiveData<>();
+    private final MutableLiveData<List<Listing>> currentUserListings = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<Integer> region = new MutableLiveData<>();
     private final MutableLiveData<String> userToken = new MutableLiveData<>();
 
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
     public LiveData<List<Listing>> getListings() {
         return listings;
+    }
+
+    public LiveData<List<Listing>> getCurrentUserListings() {
+        return currentUserListings;
     }
 
     public LiveData<Integer> getRegion() {
@@ -57,7 +63,18 @@ public class MainActivity extends AppCompatActivity {
         ListingService listingService = new ListingService(this);
 
         this.region.observe(this, newRegion -> {
-            listingService.fetchListings(newRegion, listings::setValue);
+            listingService.fetchListings(newRegion, data -> {
+                listings.setValue(data);
+
+                List<Listing> userListings = new ArrayList<>();
+
+                for (Listing newListing : data) {
+                    if(currentUser.getValue() != null && newListing.getContractorId() == currentUser.getValue().getId())
+                    userListings.add(newListing);
+                }
+                currentUserListings.setValue(userListings);
+
+            });
         });
 
 

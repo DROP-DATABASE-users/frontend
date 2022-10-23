@@ -35,9 +35,9 @@ public class ListingsFragment extends Fragment {
         if(requireActivity() instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) requireActivity();
 
-            List<Listing> listingList = mainActivity.getListings().getValue();
+            List<Listing> listingList = mainActivity.getCurrentUserListings().getValue();
             if (listingList != null) {
-                listingsView.setAdapter(new ListingAdapter(mainActivity.getListings().getValue()));
+                listingsView.setAdapter(new ListingAdapter(listingList));
             }
         }
 

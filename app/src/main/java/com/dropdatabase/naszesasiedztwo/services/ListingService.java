@@ -38,6 +38,8 @@ public class ListingService {
     }
 
 
+
+
     public void fetchListings(Integer region, FetchCallback<List<Listing>> listingCallback) {
         List<Listing> listings = new ArrayList<>();
         String url = NetworkConfig.API_URL + "/listing/" + region.toString();
@@ -75,21 +77,11 @@ public class ListingService {
     }
 
 
-    public void createListing(User creatingUser, Listing listingData, String token) {
+    public void createListing(User creatingUser, Listing listingData, String token, AcceptCallback acceptCallback, ErrorCallback errorCallback) {
         listingData.setAuthorId(creatingUser.getId());
         listingData.setAuthor(creatingUser);
 
-        StringRequest rq = new StringRequest(Request.Method.POST, NetworkConfig.API_URL + "/listing", response -> {}, error -> {}) {
-            @Override
-            public String getBodyContentType() {
-                return super.getBodyContentType();
-            }
-
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                return super.getBody();
-            }
-
+        StringRequest rq = new StringRequest(Request.Method.POST, NetworkConfig.API_URL + "/listing", response -> { acceptCallback.onAccept();}, error -> {errorCallback.onError(error.toString());}) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
@@ -97,6 +89,8 @@ public class ListingService {
                 return headers;
             }
         };
+        requestQueue.add(rq);
+
     }
 
     public interface AcceptCallback {
@@ -108,19 +102,6 @@ public class ListingService {
     }
 
 
-    public void addListing(Listing listing, AcceptCallback acceptCallback, ErrorCallback errorCallback) {
-        StringJsonRequest request = new StringJsonRequest(
-                Request.Method.POST,
-                NetworkConfig.API_URL + "/listing",
-                listing.toAddJSONObject(),
-                response -> {
-                    acceptCallback.onAccept();
-                },
-                error -> {
-                    errorCallback.onError(error.getMessage());
-                }
-                );
-    }
 
     public void acceptListing(User acceptingUser, Listing selectedListing, String token, AcceptCallback acceptCallback, ErrorCallback errorCallback) {
         ListingUpdateData updateData = new ListingUpdateData(selectedListing, acceptingUser);
