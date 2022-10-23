@@ -15,6 +15,7 @@ import com.dropdatabase.naszesasiedztwo.models.Listing;
 import com.dropdatabase.naszesasiedztwo.models.ListingUpdateData;
 import com.dropdatabase.naszesasiedztwo.models.User;
 import com.dropdatabase.naszesasiedztwo.utils.NetworkConfig;
+import com.dropdatabase.naszesasiedztwo.utils.StringJsonRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +74,31 @@ public class ListingService {
         requestQueue.add(jsonArrayRequest);
     }
 
+
+    public void createListing(User creatingUser, Listing listingData, String token) {
+        listingData.setAuthorId(creatingUser.getId());
+        listingData.setAuthor(creatingUser);
+
+        StringRequest rq = new StringRequest(Request.Method.POST, NetworkConfig.API_URL + "/listing", response -> {}, error -> {}) {
+            @Override
+            public String getBodyContentType() {
+                return super.getBodyContentType();
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return super.getBody();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+    }
+
     public interface AcceptCallback {
         void onAccept();
     }
@@ -87,40 +113,21 @@ public class ListingService {
     public void acceptListing(User acceptingUser, Listing selectedListing, String token, AcceptCallback acceptCallback, ErrorCallback errorCallback) {
         ListingUpdateData updateData = new ListingUpdateData(selectedListing, acceptingUser);
 
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.PUT, NetworkConfig.API_URL + "/listing/" + selectedListing.getId() , updateData.toJSONObject(),response -> {}, error -> {})
-            {
+        StringJsonRequest request = new StringJsonRequest(Request.Method.PUT, NetworkConfig.API_URL + "/listing/" + selectedListing.getId(), updateData.toJSONObject(),response -> {
+                    acceptCallback.onAccept();
+                },
+                error ->  {
+                    errorCallback.onError(error.toString());
+                }
+                ){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization","Bearer " + token);
+                headers.put("Authorization", "Bearer " + token);
                 return headers;
             }
         };
 
-        StringRequest stringRequest = new StringRequest(Request.Method.PUT, NetworkConfig.API_URL + "/listing/" + selectedListing.getId(),response -> {
-            acceptCallback.onAccept();
-        },
-        error ->{
-            errorCallback.onError(error.toString());
-        }) {
-
-            @Override
-            public String getBodyContentType() {
-                return jsonRequest.getBodyContentType();
-            }
-
-            @Override
-            public byte[] getBody() {
-                return jsonRequest.getBody();
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return jsonRequest.getHeaders();
-            }
-        };
-
-
-        requestQueue.add(stringRequest);
+        requestQueue.add(request);
     }
 }
