@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
@@ -21,13 +22,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+
 
 import com.dropdatabase.naszesasiedztwo.ListingDetailsActivity;
-import com.dropdatabase.naszesasiedztwo.MainActivityViewModel;
+import com.dropdatabase.naszesasiedztwo.MainActivity;
 import com.dropdatabase.naszesasiedztwo.R;
 import com.dropdatabase.naszesasiedztwo.databinding.FragmentHomeBinding;
 import com.dropdatabase.naszesasiedztwo.models.Listing;
+import com.dropdatabase.naszesasiedztwo.models.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.osmdroid.api.IMapController;
@@ -43,6 +45,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
+
     private FragmentHomeBinding binding;
 
     private MapView map;
@@ -50,24 +53,24 @@ public class HomeFragment extends Fragment {
 
     private Location currentLocation;
     private Location lastKnownLocation;
-    private MainActivityViewModel viewModel;
+
+    private MainActivity mainActivity = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(MainActivityViewModel.class);
 
-        viewModel.addListingCallback(this::updateMarkers);
+        if (requireActivity() instanceof MainActivity)
+        {
+            mainActivity = (MainActivity) requireActivity();
+        }
 
-        final TextView helloView = binding.helloView;
-        viewModel.getCurrentUser().observe(getViewLifecycleOwner(),
-                s -> helloView.setText(new SpannableStringBuilder()
-                        .append(getString(R.string.welcome))
-                        .append(s.getName(), new StyleSpan(Typeface.BOLD),
-                                0)
-                ));
+        if (mainActivity != null) {
+            mainActivity.getListings().observe(getViewLifecycleOwner(), this::updateMarkers);
+            mainActivity.getCurrentUser().observe(getViewLifecycleOwner(), this::makeGreeting);
+        }
 
 
         LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -97,11 +100,16 @@ public class HomeFragment extends Fragment {
         map = binding.map;
         map.setTileSource(TileSourceFactory.MAPNIK);
         mapController = map.getController();
-        mapController.setZoom(10.0);
-
-        updateMarkers();
+        mapController.setZoom(15.0);
 
         return binding.getRoot();
+    }
+
+    private void makeGreeting(User currentUser) {
+        binding.helloView.setText(new SpannableStringBuilder()
+                .append(getString(R.string.welcome))
+                .append(currentUser.getName(), new StyleSpan(Typeface.BOLD), 0)
+        );
     }
 
     private void requestPermission() {
@@ -109,11 +117,12 @@ public class HomeFragment extends Fragment {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private void updateMarkers() {
+    public void updateMarkers(List<Listing> listings) {
+
         List<Marker> markerList = new ArrayList<>();
 
-        List<Listing> listings = viewModel.getListings().getValue();
         if (listings == null || map == null) return;
+
         for (Listing listing : listings) {
             try {
                 Marker marker = new Marker(map);
@@ -139,6 +148,12 @@ public class HomeFragment extends Fragment {
     private void onListingPressed(Listing listing) {
         Intent intent = new Intent(requireActivity(), ListingDetailsActivity.class);
         intent.putExtra("listing", listing);
+
+        if(requireActivity() instanceof MainActivity) {
+            mainActivity = (MainActivity) requireActivity();
+            intent.putExtra("loginData",mainActivity.getLoginData());
+        }
+
         startActivity(intent);
     }
 

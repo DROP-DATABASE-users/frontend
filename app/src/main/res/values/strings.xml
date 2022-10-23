@@ -10,6 +10,7 @@
     <string name="sign_in">Zaloguj się</string>
     <string name="password">Hasło</string>
     <string name="user">Użytkownik</string>
+    
     <string name="sign_up">Zarejestruj się</string>
     <string name="title_activity_listing_details">ListingDetails</string>
     <!-- Strings used for fragments for navigation -->

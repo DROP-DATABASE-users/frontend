@@ -1,15 +1,24 @@
 package com.dropdatabase.naszesasiedztwo.services;
 
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.dropdatabase.naszesasiedztwo.utils.BackendFetchCallback;
-import com.dropdatabase.naszesasiedztwo.MainActivityViewModel;
 import com.dropdatabase.naszesasiedztwo.models.Listing;
+import com.dropdatabase.naszesasiedztwo.models.ListingUpdateData;
+import com.dropdatabase.naszesasiedztwo.models.User;
+import com.dropdatabase.naszesasiedztwo.utils.NetworkConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,19 +26,20 @@ import java.util.List;
 import java.util.Map;
 
 public class ListingService {
-    private final MainActivityViewModel vm;
     private final RequestQueue requestQueue;
 
-    public ListingService(MainActivityViewModel vm) {
-        this.requestQueue = Volley.newRequestQueue(vm.getApplication());
-        this.vm = vm;
+    public interface FetchCallback<T> {
+        void onReceived(T data);
     }
 
-    public void fetchListings(BackendFetchCallback<List<Listing>> listingCallback) {
+    public ListingService(Context context) {
+        this.requestQueue = Volley.newRequestQueue(context);
+    }
+
+
+    public void fetchListings(Integer region, FetchCallback<List<Listing>> listingCallback) {
         List<Listing> listings = new ArrayList<>();
-
-        String url = "http://172.30.188.124:5078/api/listing/12";
-
+        String url = NetworkConfig.API_URL + "/listing/" + region.toString();
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 url,
@@ -63,4 +73,54 @@ public class ListingService {
         requestQueue.add(jsonArrayRequest);
     }
 
+    public interface AcceptCallback {
+        void onAccept();
+    }
+
+    public interface ErrorCallback {
+        void onError(String errorMessage);
+    }
+
+
+
+
+    public void acceptListing(User acceptingUser, Listing selectedListing, String token, AcceptCallback acceptCallback, ErrorCallback errorCallback) {
+        ListingUpdateData updateData = new ListingUpdateData(selectedListing, acceptingUser);
+
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.PUT, NetworkConfig.API_URL + "/listing/" + selectedListing.getId() , updateData.toJSONObject(),response -> {}, error -> {})
+            {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization","Bearer " + token);
+                return headers;
+            }
+        };
+
+        StringRequest stringRequest = new StringRequest(Request.Method.PUT, NetworkConfig.API_URL + "/listing/" + selectedListing.getId(),response -> {
+            acceptCallback.onAccept();
+        },
+        error ->{
+            errorCallback.onError(error.toString());
+        }) {
+
+            @Override
+            public String getBodyContentType() {
+                return jsonRequest.getBodyContentType();
+            }
+
+            @Override
+            public byte[] getBody() {
+                return jsonRequest.getBody();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return jsonRequest.getHeaders();
+            }
+        };
+
+
+        requestQueue.add(stringRequest);
+    }
 }
