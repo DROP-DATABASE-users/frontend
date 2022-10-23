@@ -125,7 +125,8 @@ public class ListingService {
     public void acceptListing(User acceptingUser, Listing selectedListing, String token, AcceptCallback acceptCallback, ErrorCallback errorCallback) {
         ListingUpdateData updateData = new ListingUpdateData(selectedListing, acceptingUser);
 
-        StringJsonRequest request = new StringJsonRequest(Request.Method.PUT, NetworkConfig.API_URL + "/listing/" + selectedListing.getId(), updateData.toJSONObject(),response -> {
+        StringRequest request = new StringRequest(Request.Method.PATCH,
+                NetworkConfig.API_URL + "/listing/" + selectedListing.getId(), response -> {
                     acceptCallback.onAccept();
                 },
                 error ->  {
