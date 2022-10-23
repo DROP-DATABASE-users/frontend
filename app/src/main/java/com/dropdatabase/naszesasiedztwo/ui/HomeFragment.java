@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -57,6 +59,7 @@ public class HomeFragment extends Fragment {
     private Location lastKnownLocation;
 
     private MainActivity mainActivity = null;
+    private ActivityResultLauncher<Intent> launcher;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -106,6 +109,14 @@ public class HomeFragment extends Fragment {
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(15.0);
+
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            FragmentActivity activity = requireActivity();
+            if (activity instanceof MainActivity) {
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.updateListings();
+            }
+        });
 
         return binding.getRoot();
     }
@@ -171,7 +182,7 @@ public class HomeFragment extends Fragment {
             intent.putExtra("user", mainActivity.getCurrentUser().getValue());
             intent.putExtra("token", mainActivity.getLoginData().getString("token"));
             intent.putExtra("location", lastKnownLocation);
-            startActivity(intent);
+            launcher.launch(intent);
         }
     }
 

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListingService listingService;
 
-    private void updateListings() {
+    public void updateListings() {
         listingService.fetchListings(Objects.requireNonNull(region.getValue()), data -> {
             listings.setValue(data);
 
