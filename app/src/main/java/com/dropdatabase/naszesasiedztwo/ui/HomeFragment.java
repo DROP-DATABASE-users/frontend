@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment {
 
         map = binding.map;
         map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(15.0);
 

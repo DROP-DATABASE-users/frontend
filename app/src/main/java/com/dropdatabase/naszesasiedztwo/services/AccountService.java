@@ -20,6 +20,7 @@ import com.dropdatabase.naszesasiedztwo.models.LoginData;
 import com.dropdatabase.naszesasiedztwo.models.RegisterData;
 import com.dropdatabase.naszesasiedztwo.models.User;
 import com.dropdatabase.naszesasiedztwo.utils.NetworkConfig;
+import com.dropdatabase.naszesasiedztwo.utils.StringJsonRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +59,7 @@ public class AccountService {
     }
 
     public void register(RegisterData data, RegisterCallback callback, ErrorCallback errorCallback) {
-        JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST,
+        StringJsonRequest registerRequest = new StringJsonRequest(Request.Method.POST,
                 route + "/register",
                 data.toJsonObject(),
                 response -> {
