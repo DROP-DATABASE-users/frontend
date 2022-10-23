@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">NaszeSąsiedztwo</string>
     <string name="home">Główna</string>
     <string name="profile">Profil</string>
@@ -31,6 +31,8 @@
     <string name="nick">Nick</string>
     <string name="last_name">Nazwisko</string>
     <string name="first_name">Imię</string>
+    <string name="new_listing" tools:ignore="Typos">Nowe ogłoszenie</string>
+    <string name="title">Tytuł</string>
     <string-array name="regions">
         <item>Dolnośląskie</item>
         <item>Kujawsko-Pomorskie</item>

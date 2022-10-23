@@ -81,9 +81,9 @@ public class ListingService {
         listingData.setAuthorId(creatingUser.getId());
         listingData.setAuthor(creatingUser);
 
-        StringRequest rq = new StringRequest(Request.Method.POST, NetworkConfig.API_URL + "/listing", response -> { acceptCallback.onAccept();}, error -> {errorCallback.onError(error.toString());}) {
+        StringJsonRequest rq = new StringJsonRequest(Request.Method.POST, NetworkConfig.API_URL + "/listing", listingData.toAddJSONObject(), response -> acceptCallback.onAccept(), error -> errorCallback.onError(error.toString())) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + token);
                 return headers;
@@ -107,15 +107,11 @@ public class ListingService {
         ListingUpdateData updateData = new ListingUpdateData(selectedListing, acceptingUser);
 
         StringRequest request = new StringRequest(Request.Method.PATCH,
-                NetworkConfig.API_URL + "/listing/" + selectedListing.getId(), response -> {
-                    acceptCallback.onAccept();
-                },
-                error ->  {
-                    errorCallback.onError(error.toString());
-                }
+                NetworkConfig.API_URL + "/listing/" + selectedListing.getId(), response -> acceptCallback.onAccept(),
+                error -> errorCallback.onError(error.toString())
                 ){
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + token);
                 return headers;

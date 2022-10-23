@@ -19,6 +19,8 @@ public class Listing implements Serializable {
     @Nullable private User contractor;
     private int contractorId;
 
+    public Listing() {}
+
     public Listing(int id,
                    String title,
                    String description,

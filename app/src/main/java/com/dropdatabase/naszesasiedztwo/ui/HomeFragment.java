@@ -22,10 +22,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 
 import com.dropdatabase.naszesasiedztwo.ListingDetailsActivity;
 import com.dropdatabase.naszesasiedztwo.MainActivity;
+import com.dropdatabase.naszesasiedztwo.NewListingActivity;
 import com.dropdatabase.naszesasiedztwo.R;
 import com.dropdatabase.naszesasiedztwo.databinding.FragmentHomeBinding;
 import com.dropdatabase.naszesasiedztwo.models.Listing;
@@ -94,6 +96,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        binding.newButton.setOnClickListener(this::onNewListingClicked);
+
         Context ctx = getContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
@@ -150,12 +154,25 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(requireActivity(), ListingDetailsActivity.class);
         intent.putExtra("listing", listing);
 
-        if(requireActivity() instanceof MainActivity) {
+        if (requireActivity() instanceof MainActivity) {
             mainActivity = (MainActivity) requireActivity();
             intent.putExtra("loginData",mainActivity.getLoginData());
         }
 
         startActivity(intent);
+    }
+
+    private void onNewListingClicked(View v) {
+        FragmentActivity activity = requireActivity();
+        if (activity instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) requireActivity();
+            Intent intent = new Intent(activity, NewListingActivity.class);
+            intent.putExtra("region", mainActivity.getRegion().getValue());
+            intent.putExtra("user", mainActivity.getCurrentUser().getValue());
+            intent.putExtra("token", mainActivity.getLoginData().getString("token"));
+            intent.putExtra("location", lastKnownLocation);
+            startActivity(intent);
+        }
     }
 
     @Override

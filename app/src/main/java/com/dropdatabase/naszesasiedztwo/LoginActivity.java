@@ -69,6 +69,9 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
+    @Override
+    public void onBackPressed() {}
+
     public void onRegisterClicked(View view) {
         startActivity(new Intent(this, RegisterActivity.class));
     }
