@@ -65,6 +65,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
+        android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -97,4 +98,16 @@
         app:layout_constraintBottom_toTopOf="@+id/region_spinner"
         app:layout_constraintEnd_toEndOf="@+id/region_spinner"
         app:layout_constraintStart_toStartOf="@+id/region_spinner" />
+
+    <TextView
+        android:id="@+id/error_msg"
+        android:layout_width="286dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="56dp"
+        android:textColor="?attr/colorError"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        tools:text="error" />
 </androidx.constraintlayout.widget.ConstraintLayout>

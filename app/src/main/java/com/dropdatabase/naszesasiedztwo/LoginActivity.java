@@ -43,7 +43,10 @@ public class LoginActivity extends AppCompatActivity {
         loginData.setUsername(binding.usernameInput.getText().toString());
         loginData.setPassword(binding.passwordInput.getText().toString());
 
-        this.error.observe(this, msg -> Toast.makeText(this, msg, Toast.LENGTH_SHORT).show());
+        this.error.observe(this,
+                error -> {
+                    binding.errorMsg.setText(error);
+                });
 
         accountService.login(
                 loginData,
