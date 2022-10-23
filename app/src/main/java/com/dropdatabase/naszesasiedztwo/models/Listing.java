@@ -35,7 +35,9 @@ public class Listing implements Serializable {
         this.regionId = regionId;
         this.author = author;
         this.authorId = this.author.getId();
+
         this.contractor = contractor;
+        assert this.contractor != null;
         this.contractorId = this.contractor.getId();
     }
 
@@ -138,6 +140,22 @@ public class Listing implements Serializable {
 
     public void setContractorId(int contractorId) {
         this.contractorId = contractorId;
+    }
+
+    public JSONObject toAddJSONObject() {
+        JSONObject o = new JSONObject();
+        try {
+            o.put("title", this.title);
+            o.put("coordinatesX", this.coordinatesX);
+            o.put("coordinatesY", this.coordinatesY);
+            o.put("description", this.description);
+            o.put("region", this.regionId);
+            o.put("author", this.author);
+            o.put("authorId", this.authorId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return o;
     }
 }
 
