@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public void setLoginData(Bundle loginData) {
         this.loginData = loginData;
     }
+
     public Bundle getLoginData() {
         return loginData;
     }
@@ -69,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
                 List<Listing> userListings = new ArrayList<>();
 
                 for (Listing newListing : data) {
-                    if(currentUser.getValue() != null && newListing.getContractorId() == currentUser.getValue().getId())
-                    userListings.add(newListing);
+                    if (currentUser.getValue() != null && newListing.getContractorId() == currentUser.getValue().getId())
+                        userListings.add(newListing);
                 }
                 currentUserListings.setValue(userListings);
 
