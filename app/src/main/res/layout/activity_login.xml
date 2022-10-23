@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:backgroundTint="?attr/colorSecondaryVariant"
+        android:onClick="onRegisterClicked"
         android:text="@string/sign_up"
         app:layout_constraintEnd_toEndOf="@+id/login_button"
         app:layout_constraintHorizontal_bias="0.0"
@@ -101,9 +102,10 @@
 
     <TextView
         android:id="@+id/error_msg"
-        android:layout_width="286dp"
-        android:layout_height="55dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
+        android:gravity="center"
         android:textColor="?attr/colorError"
         app:layout_constraintEnd_toEndOf="@+id/button"
         app:layout_constraintHorizontal_bias="0.498"

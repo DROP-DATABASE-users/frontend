@@ -10,7 +10,7 @@
     <string name="sign_in">Zaloguj się</string>
     <string name="password">Hasło</string>
     <string name="user">Użytkownik</string>
-    
+
     <string name="sign_up">Zarejestruj się</string>
     <string name="title_activity_listing_details">ListingDetails</string>
     <!-- Strings used for fragments for navigation -->
@@ -26,6 +26,11 @@
     <string name="accept">Przyjmuję</string>
     <string name="cancel">Anuluj</string>
     <string name="created_by">Utworzono przez:</string>
+    <string name="registration">Rejestracja</string>
+    <string name="description">Opis</string>
+    <string name="nick">Nick</string>
+    <string name="last_name">Nazwisko</string>
+    <string name="first_name">Imię</string>
     <string-array name="regions">
         <item>Dolnośląskie</item>
         <item>Kujawsko-Pomorskie</item>

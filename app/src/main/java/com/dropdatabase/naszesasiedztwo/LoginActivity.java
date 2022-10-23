@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private AccountService accountService;
 
-    private MutableLiveData<String> error = new MutableLiveData<>();
+    private final MutableLiveData<String> error = new MutableLiveData<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         loginData.setUsername(binding.usernameInput.getText().toString());
         loginData.setPassword(binding.passwordInput.getText().toString());
 
-        this.error.observe(this,
-                error -> {
-                    binding.errorMsg.setText(error);
-                });
+        this.error.observe(this, error -> binding.errorMsg.setText(error));
 
         accountService.login(
                 loginData,
@@ -65,17 +62,14 @@ public class LoginActivity extends AppCompatActivity {
                                 setResult(RESULT_OK, result);
                                 finish();
                             },
-                            errorMessage -> {
-                                error.setValue(errorMessage);
-                            }
+                            error::setValue
                     );
-
-
-
                 },
-                errorMessage -> {
-                    error.setValue(errorMessage);
-                }
+                error::setValue
         );
+    }
+
+    public void onRegisterClicked(View view) {
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 }
