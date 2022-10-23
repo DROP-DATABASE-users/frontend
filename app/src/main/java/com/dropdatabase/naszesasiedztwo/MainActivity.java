@@ -57,11 +57,29 @@ public class MainActivity extends AppCompatActivity {
         return loginData;
     }
 
+
+    private ListingService listingService;
+
+    private void updateListings() {
+        listingService.fetchListings(Objects.requireNonNull(region.getValue()), data -> {
+            listings.setValue(data);
+
+            List<Listing> userListings = new ArrayList<>();
+
+            for (Listing newListing : data) {
+                if (currentUser.getValue() != null && newListing.getContractorId() == currentUser.getValue().getId())
+                    userListings.add(newListing);
+            }
+            currentUserListings.setValue(userListings);
+        });
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ListingService listingService = new ListingService(this);
+        listingService = new ListingService(this);
 
         this.region.observe(this, newRegion -> {
             listingService.fetchListings(newRegion, data -> {
